@@ -1,4 +1,4 @@
-import { sql } from "./db.js";
+import { sql } from "./pg-connection.database.js";
 
 // sql`
 // DROP TABLE IF EXISTS videos

@@ -1,4 +1,10 @@
-POST http://localhost:3333/videos 
+# deploy url: https://node-do-zero-7q3b.onrender.com/
+# development url: http://localhost:3333/
+
+@url = https://node-do-zero-7q3b.onrender.com
+@param = videos
+
+POST {{url}}/{{param}} 
 Content-Type: application/json
 
 {
@@ -9,11 +15,13 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3333/videos?search=node
+###
+
+GET {{url}}/{{param}}?search=node
 
 ###
 
-PUT http://localhost:3333/videos/0bdb7627-664f-4562-bb96-9802f697cc84
+PUT {{url}}/{{param}}/0bdb7627-664f-4562-bb96-9802f697cc84
 Content-Type: application/json
 
 {
@@ -23,4 +31,6 @@ Content-Type: application/json
 }
 ###
 
-DELETE http://localhost:3333/videos/72c6b90c-6f53-4da4-aa80-21912a32f867
+###
+
+DELETE {{url}}/{{param}}/72c6b90c-6f53-4da4-aa80-21912a32f867
