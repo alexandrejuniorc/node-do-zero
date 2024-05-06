@@ -1,9 +1,48 @@
-import { createServer } from "node:http";
+import { fastify } from "fastify";
+import { DatabasePostgres } from "./database.postgres.js";
 
-const server = createServer((req, res) => {
-  // res.end("Hello, World!");
-  res.write("oi");
-  return res.end()
+const server = fastify();
+const database = new DatabasePostgres();
+
+server.post("/videos", async (request, reply) => {
+  const { title, description, duration } = request.body;
+
+  await database.create({
+    title: title,
+    description: description,
+    duration: duration,
+  });
+
+  return reply.status(201).send();
 });
 
-server.listen(3333);
+server.get("/videos", async (request, reply) => {
+  const search = request.query.search;
+
+  const videos = await database.list(search);
+
+  return reply.status(200).send(videos);
+});
+
+server.put("/videos/:id", async (request, reply) => {
+  const videoId = request.params.id;
+  const { title, description, duration } = request.body;
+
+  await database.update(videoId, {
+    title,
+    description,
+    duration,
+  });
+
+  return reply.status(204).send();
+});
+
+server.delete("/videos/:id", async (request, reply) => {
+  const videoId = request.params.id;
+  await database.delete(videoId);
+  return reply.status(204).send();
+});
+
+server.listen({
+  port: process.env.PORT ?? 3333,
+});
